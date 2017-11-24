@@ -1,0 +1,54 @@
+﻿@using HZ.Data.Model;
+@using HZ.Data.BLL;
+@{
+    ViewBag.Title = "角色菜单权限";
+    Layout = null;
+    ITC_Buttons but = new ITC_Buttons();
+    List<ITC_Buttons_M> list_but = but.GetList("Buttons_Status=0");
+    ITC_Sysmenus smu = new ITC_Sysmenus();
+    List<ITC_Sysmenus_M> list_smu = smu.GetList("Menu_Status=0");
+    ITC_Roles rol = new ITC_Roles();
+    string roleid = Request["roleid"];
+}
+@if(roleid!=null&&roleid!="")
+{
+<form id="fmRight" method="post" novalidate="novalidate" style="margin: 5px">
+    <table id="dgRight" class="table table-striped">
+        <thead>
+            <tr>
+                <th>菜单名称</th>
+@{
+    foreach (ITC_Buttons_M b in list_but)
+	{
+	 @Html.Raw("<th>"+b.Buttons_NAME+"</th>");
+	}
+          
+}     
+            </tr>
+        </thead>
+        <tbody>
+@{
+    foreach (ITC_Sysmenus_M m in list_smu)
+    {
+        <tr>
+            <td>@m.Menu_Name</td>
+    @{
+        foreach (ITC_Buttons_M b in list_but)
+        {
+            if(m.Menu_Url!=""||b.Buttons_ID=="QUERY")
+            {
+                <td><input name="@(m.Menu_ID+"|"+b.Buttons_ID)" type="checkbox" @(rol.CheckRoleOperator(roleid,m.Menu_ID,b.Buttons_ID)?"checked=\"checked\"":"") /></td>
+            }
+            else
+            {
+                <td></td>
+            }
+        }
+    }
+        </tr>
+    }
+}
+        </tbody>
+    </table>
+</form>    
+}

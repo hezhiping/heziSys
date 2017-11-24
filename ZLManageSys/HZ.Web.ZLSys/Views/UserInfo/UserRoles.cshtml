@@ -1,0 +1,48 @@
+﻿@using HZ.Data.BLL;
+@using HZ.Data.Model;
+@{
+    ViewBag.Title = "分配角色";
+    Layout = null;
+    ITC_Roles rol = new ITC_Roles();
+    List<ITC_Roles_M> list_rol = rol.GetList("Role_Status=0");
+    ITC_Organization org = new ITC_Organization();
+    List<ITC_Organization_M> list_org = org.GetList("Orga_ID=''");
+    ITC_Userinfo usr = new ITC_Userinfo();
+    string userid = Request["userid"];
+}
+@if (userid != null && userid != "")
+{
+<form id="fmRoles" method="post" novalidate="novalidate" style="margin: 5px">
+    <table id="dgRoles" class="table table-striped">
+        <thead>
+            <tr>
+                <th >角色名称</th>
+@{
+    foreach (ITC_Organization_M o in list_org)
+	{
+	 @Html.Raw("<th >"+o.Organization_FullName+"</th>");
+	}
+          
+}   
+            </tr>
+        </thead>
+        <tbody>
+@{
+    foreach (ITC_Roles_M r in list_rol)
+    {
+        <tr>
+            <td >@r.Role_Name</td>
+    @{
+        foreach (ITC_Organization_M o in list_org)
+        {
+
+            <td ><input name="@(r.Role_ID+"|"+o.Orga_ID)" type="checkbox" @(usr.CheckRoleRange(userid,r.Role_ID,o.Orga_ID)?"checked=\"checked\"":"") /></td>
+        }
+    }
+        </tr>
+    }
+}
+        </tbody>
+    </table>
+</form>    
+}

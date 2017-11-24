@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{000BAC9F-D3F2-4790-BEA6-94AA5B904DA1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HZ.Data.DAL</RootNamespace>
+    <AssemblyName>HZ.Data.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ITC\ITC_Buttons.cs" />
+    <Compile Include="ITC\ITC_Organization.cs" />
+    <Compile Include="ITC\ITC_Position.cs" />
+    <Compile Include="ITC\ITC_RoleOperator.cs" />
+    <Compile Include="ITC\ITC_RoleRights.cs" />
+    <Compile Include="ITC\ITC_Roles.cs" />
+    <Compile Include="ITC\ITC_SysEvent.cs" />
+    <Compile Include="ITC\ITC_Sysmenus.cs" />
+    <Compile Include="ITC\ITC_Userinfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZL_BaseInfo\BaseInfo_Scx_D.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HZ.Data.Interface\HZ.Data.Interface.csproj">
+      <Project>{99e686ff-6dfb-43f7-90e9-982416ca7830}</Project>
+      <Name>HZ.Data.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HZ.Data.Model\HZ.Data.Model.csproj">
+      <Project>{aad29f6e-357e-4d96-9ea7-1e31e652cdc1}</Project>
+      <Name>HZ.Data.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HZ.Utility\HZ.Utility.csproj">
+      <Project>{fd251665-1a7f-4938-8c44-d79bf4070a65}</Project>
+      <Name>HZ.Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+@using System.Data;
+@using HZ.Data.BLL;
+@using HZ.Data.Model;
+@using HZ.Web;
+@using System.Configuration;
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title
+    </title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="@Url.Content("~/Content/themes/default/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/themes/color.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/themes/icon.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/themes/Site.css")" rel="stylesheet" />
+</head>
+
+<body class="easyui-layout">
+    <noscript>
+        <div class="noscript">
+            <img src="@Url.Content("~/Content/Images/noscript.gif")" alt="抱歉，请开启脚本支持！" />
+        </div>
+    </noscript>
+    <div region="north" data-options="split:false"  style="height: 65px; background-image: url(@Url.Content("~/Content/Images/head_bg.png")); background-repeat: repeat-x;">
+        <div class="hdtitle" style="margin: 5px">
+            @*<div style="float: left;">
+                <img src="@Url.Content("~/Content/Images/slogo.png")" />
+            </div>*@
+            <div style="font-size: 28px; height: 18px; padding-top: 7px; font-family:华文行楷;">Box</div>
+            <div id="login" style="float: right;">
+                <div id="ltitle" style="float: left;">当前用户：</div>
+                <div id="loginvalue" style="float: left;">@UserContext.UserName </div>
+                <div id="loginout" style="float: left;"><a href="@(ConfigurationManager.AppSettings["Debug"].ToString()=="true"?ConfigurationManager.AppSettings["DebugURL"].ToString():ConfigurationManager.AppSettings["WebURL"].ToString())" style="background-color: #009ACD; color: white; font-size: 14px">返回导航</a></div>
+            </div>
+        </div>
+    </div>    
+    <div region="west" title="菜单列表" data-options="split:false" style="width: 200px; background-color: #e0ecff;">
+        
+        <div style="width: 190px;">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" style="width: 45%" onclick="expandAll()">全部展开</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton c8" style="width: 45%" onclick="collapseAll()">全部折叠</a>
+        </div>
+
+        <div class="easyui-panel" style="padding: 8px; border: 0; background-color: #e0ecff;">
+            <ul id="tt" class="easyui-tree" data-options=" method:'get',
+                    animate: true,
+                    onSelect:function(node){
+                    $(this).tree('expand',node.target);
+                    },
+                    onDblClick:function(node){
+                    $(this).tree('collapse',node.target);
+                    }">
+                @{                      
+                    #region 测试使用无权限判定
+                    //ITC_Sysmenus smu = new ITC_Sysmenus();
+                    //List<ITC_Sysmenus_M> list_smu = smu.GetList("Menu_Status=0");//Debug
+                    ITC_Userinfo usr = new ITC_Userinfo();
+                    List<ITC_Sysmenus_M> list_smu = usr.GetUserMenus(UserContext.UserID);//Release
+                    #endregion
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("Menu_ID", typeof(string));
+                    dt.Columns.Add("Menu_Order", typeof(int));
+                    dt.Columns.Add("Menu_ParentID", typeof(string));
+                    dt.Columns.Add("Menu_URl", typeof(string));
+                    dt.Columns.Add("Menu_Name", typeof(string));
+                    
+                    for (int i = 0; i < list_smu.Count; i++)
+                    {
+                        DataRow row = dt.NewRow();
+                        row["Menu_Name"] = list_smu[i].Menu_Name;
+                        row["Menu_Url"] = list_smu[i].Menu_Url;
+                        if (list_smu[i].Menu_ParentID.ToString().Trim() == "")
+                        {
+                            row["Menu_ParentID"] = DBNull.Value;
+                        }
+                        else
+                        {
+                            row["Menu_ParentID"] = list_smu[i].Menu_ParentID.ToString().Trim();
+                        }
+                        row["Menu_Order"] = list_smu[i].Menu_Order;
+                        row["Menu_ID"] = list_smu[i].Menu_ID.Trim();
+
+                        dt.Rows.Add(row);
+                    }
+                    //加载树形
+                    DataSet ds = new DataSet();
+                    ds.Tables.Add(dt);
+                    ds.Relations.Add("TreeRelation", ds.Tables[0].Columns["Menu_ID"], ds.Tables[0].Columns["Menu_ParentID"]);
+                    DataRow[] drs1 = ds.Tables[0].Select("Menu_ParentID is null");//第一层菜单
+                    if (drs1 != null && drs1.Count() > 0)
+                    {
+                        foreach (DataRow dr1 in drs1)
+                        {
+                            DataRow[] drs2 = dr1.GetChildRows("TreeRelation");//第二层菜单
+                            if (drs2 != null && drs2.Count() > 0)
+                            {
+                                <li state="closed"><span>@dr1["Menu_Name"].ToString()</span>
+                                    <ul>
+                                        @{
+                                        foreach (DataRow dr2 in drs2)
+                                        {
+                                            DataRow[] drs3 = dr2.GetChildRows("TreeRelation");//第三层菜单
+                                            if (drs3 != null && drs3.Count() > 0)
+                                            {
+                                                <li state="closed"><span>@dr2["Menu_Name"].ToString()</span>
+                                                    <ul>
+                                                        @{
+                                                        foreach (DataRow dr3 in drs3)
+                                                        {
+                                                            <li><a href="javascript:void(0)" id="@dr3["Menu_ID"].ToString()" src="@dr3["Menu_Url"].ToString()" class="menuLink">@dr3["Menu_Name"].ToString()</a></li>
+                                                        }
+                                                        }
+                                                    </ul>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="javascript:void(0)" id="@dr2["Menu_ID"].ToString()" src="@dr2["Menu_Url"].ToString()" class="menuLink">@dr2["Menu_Name"].ToString()</a></li>
+                                            }
+                                        }
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li><a href="javascript:void(0)" id="@dr1["Menu_ID"].ToString()" src="@dr1["Menu_Url"].ToString()" class="menuLink">@dr1["Menu_Name"].ToString()</a></li>
+                            }
+                        }
+                    }
+                    
+                }
+
+            </ul>
+        </div>
+    </div>
+    <div region="center">
+        <div id="ttTab" class="easyui-tabs" style="width: 100%; background-color: #f4f4f4;" pill="true" fit="true" border="false" data-options="tools:'#tab-tools'">
+            <div title="首页" data-options="iconCls:'icon-home',closable:false"  style="background-color:#f4f4f4;text-align:center; " >
+                @RenderBody()
+            </div>
+        </div>
+        <div id="tab-tools" style="border-top: none;">
+            @*<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="addPanel()"></a>*@
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cross-octagon'" onclick="removePanel()" title="关闭窗体"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-screen-full'" onclick="screenfull()" title="缩放窗体"></a>
+        </div>
+    </div>
+    <div region="south"  style="height:24px;padding:2px;color:white;background-image:url(@Url.Content("~/Content/Images/head_bg.png"));background-repeat:repeat-x;overflow-y:hidden">
+        2016 &copy; Box
+    </div>
+
+    <script src="@Url.Content("~/Content/Scripts/jquery-1.11.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/Scripts/jquery.easyui.min.js")"></script>
+    <script src="@Url.Content("~/Content/Scripts/lang/easyui-lang-zh_CN.js")"></script>
+    <script type="text/javascript">        
+        $(function () {
+            //绑定菜单单击事件
+            BindMenuClickHrefEvent();
+            //实现Tab布局
+            $("#ttTab").tabs({});
+        });
+        function collapseAll() {
+            $('#tt').tree('collapseAll');
+        }
+        function expandAll() {
+            $('#tt').tree('expandAll');
+        }
+        function collapse() {
+            var node = $('#tt').tree('getSelected');
+            $('#tt').tree('collapse', node.target);
+        }
+        function expand() {
+            var node = $('#tt').tree('getSelected');
+            $('#tt').tree('expand', node.target);
+        }
+        //实现用户单击导航栏跳转页面的方法
+        function BindMenuClickHrefEvent() {
+            $(".menuLink").click(function () {
+                //获取按钮里面的Src属性
+                var src = $(this).attr("src");
+                //将主框架的iframe跳转到菜单指向的地址，$("#frmWorkArea").attr("src", src);
+                //
+                //Tab页面添加页面标签，每当单击左边的导航栏的时候跳转
+                var titleShow = $(this).text();
+                var menuid = "mn" + $(this).attr("id");
+                var strHtml = '<iframe width="100%" height="100%" frameborder="0" scrolling="yes" style="background-color:#f4f4f4;" src="' + src + '"></iframe>';
+                //判断Tab标签中是否有相同的数据标签
+                var isExist = $("#ttTab").tabs('exists', titleShow);
+                if (!isExist) {
+                    $("#ttTab").tabs('add', {
+                        id: menuid,
+                        title: titleShow,
+                        content: strHtml,
+                        //iconCls: 'icon-sum',
+                        iconCls: 'icon-menu-new',
+                        closable: true,
+                        fit: true,
+                    });
+                    $("#" + menuid).css("overflow-y", "hidden");
+                }
+                else {
+                    $('#ttTab').tabs('select', titleShow);
+                }
+            });
+        }
+        function removePanel() {
+            var tab = $('#ttTab').tabs('getSelected');
+            if (tab) {
+                var index = $('#ttTab').tabs('getTabIndex', tab);
+                if (index > 0) {
+                    $('#ttTab').tabs('close', index);
+                }
+            }
+        }
+        function screenfull() {
+            var tab = $('#ttTab').tabs('getSelected');
+            if (tab) {
+                var index = $('#ttTab').tabs('getTabIndex', tab);
+                var that = $('#ttTab');
+                if (that.find('.icon-screen-full').length) {
+                    that.find('.icon-screen-full').removeClass('icon-screen-full').addClass('icon-screen-actual');
+                    $('[region=north],[region=west],[region=south]').panel('close');
+                    var panels = $('body').data().layout.panels;
+                    panels.north.length = 0;
+                    panels.west.length = 0;
+                    panels.south.length = 0;
+                    if (panels.expandWest) {
+                        panels.expandWest.length = 0;
+                        $(panels.expandWest[0]).panel('close');
+                    }
+                    $('body').layout('resize');
+                } else if ($(that).find('.icon-screen-actual').length) {
+                    that.find('.icon-screen-actual').removeClass('icon-screen-actual').addClass('icon-screen-full');
+                    $('[region=north],[region=west],[region=south]').panel('open');
+                    var panels = $('body').data().layout.panels;
+                    panels.north.length = 1;
+                    panels.west.length = 1;
+                    panels.south.length = 1;
+                    if ($(panels.west[0]).panel('options').collapsed) {
+                        panels.expandWest.length = 1;
+                        $(panels.expandWest[0]).panel('open');
+                    }
+                    $('body').layout('resize');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

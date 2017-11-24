@@ -1,0 +1,202 @@
+﻿@{
+    ViewBag.Title = "组织管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*数据列表*@
+<table id="dg" class="easyui-datagrid" title="@ViewBag.Title" iconcls="icon-page"
+    data-options="toolbar:'#tb',rownumbers:true,autoRowHeight:false,pagination:true,pageSize:15,pageList:[15,30,50,100],striped:true,method:'post',width:'99%',height:document.documentElement.clientHeight-10,onDblClickRow:edit">
+    <thead>
+        <tr>
+            <th data-options="field:'ck',checkbox:true,width:40"></th>
+            <th data-options="field:'Orga_ID',align:'center',width:100">组织编码</th>
+            <th data-options="field:'Organization_Name',align:'center',width:100">组织名称</th>
+            <th data-options="field:'Organization_FullName',align:'center',width:150">组织全称</th>
+            <th data-options="field:'Organization_Ceo',align:'center',width:60">负责人</th>
+            <th data-options="field:'Organization_PanelName',align:'center',width:100">上级组织</th>
+            <th data-options="
+                field:'Organization_Status',
+                align:'center',
+                width:50,
+                styler: function(value,row,index){
+		                    if (value == '冻结') {
+		                        return 'color:red;';
+		                    }
+		                }">状态</th>
+            <th data-options="field:'Organization_createdtime',align:'center',width:110">创建时间</th>
+            <th data-options="field:'Organization_Oprt',align:'center',width:60">创建者</th>
+            <th data-options="field:'Organization_Zip',align:'center',width:70">邮编</th>
+            <th data-options="field:'Organization_Remark',align:'center',width:100">备注</th>
+        </tr>
+    </thead>
+</table>
+@*datagrid工具条*@
+<div id="tb" style="height: auto; padding: 3px;">
+    <a id="ADD" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" onclick="add()">添加</a>
+    <a id="MODIFY" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-edit" onclick="edit()">编辑</a>
+    <a id="DELETE" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-remove" onclick="doDelete()">删除</a>
+    <div style="float:right;line-height:27px;">
+        状态:
+        <input id="ddlStatus" class="easyui-combobox" data-options="
+					valueField:'value',
+					textField:'text',
+                    data:[{value:'',text:' 所有'},{value:'0',text:'正常',selected:true},{value:'1',text:'冻结'}],
+                    editable:false,
+                    panelHeight:120"
+                style="width: 70px; height: 24px">
+        <input class="easyui-searchbox" data-options="prompt:'请输入关键字',menu:'#mm',searcher:doSearch" style="width: 300px; height: 24px;" />
+    </div>
+    <div id="mm">
+        <div data-options="name:'all',iconCls:'icon-ok'">全部</div>
+        <div data-options="name:'Orga_ID'">组织编码</div>
+        <div data-options="name:'Organization_Name'">组织名称</div>
+        <div data-options="name:'Organization_Ceo'">负责人</div>
+    </div>
+</div>
+
+@*编辑窗体*@
+<div id="dlg" class="easyui-dialog" data-options="iconCls:'icon-save',closed:true,modal:true,shadow:true" buttons="#dlg-buttons" style="width: 340px;">
+    <form id="fmedit" method="post" style="margin: 5px">
+        <div class="editor-label">组织编码:</div>
+        <div class="editor-field">
+            <input id="Orga_ID" class="easyui-textbox" name="Orga_ID" data-options="required:true" validtype="length[2,8]" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">组织名称:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_Name" required="required" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">组织全称:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_FullName" required="required" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">负责人:</div>
+        <div class="editor-field">
+            <input class="easyui-combobox" name="Organization_Ceo" data-options="
+					url:'/UserInfo/GetDataList2', 
+					valueField:'User_ID',
+					textField:'User_Name',
+                    editable:false"
+                style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">总机:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_Tel" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">负责人电话:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_Mobil" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">传真:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_Fax" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">邮编区号:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_Zip" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">地址:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_address" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">上级组织:</div>
+        <div class="editor-field">
+            <input class="easyui-combobox" name="Organization_ParentID" data-options="
+					url:'GetParentList', 
+					valueField:'Orga_ID',
+					textField:'Organization_Name',
+                    editable:false"
+                style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">排序:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_Order" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">状态:</div>
+        <div class="editor-field">
+            <input checked="checked" name="Organization_Status" style="width: 20px; height: 10px; background-color: white" type="radio" value="0" />正常                 
+            <input name="Organization_Status" style="width: 20px; height: 10px; background-color: white" type="radio" value="1" />冻结
+        </div>
+        <div class="editor-label">利家部门代码:</div>
+
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_DeptCode" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">备注:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="Organization_Remark" data-options="multiline:true" style="width: 100%; height: 42px">
+        </div>
+    </form>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" id="SAVE" onclick="doSave(this.id)">确定</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-clear" onclick="javascript:$('#dlg').dialog('close');">关闭</a>
+    </div>
+</div>
+@section PageSpecificJavascriptIncludes{
+    <script>
+        var dgid = '#dg';//数据列表tabel id
+        var fmid = '#fmedit';//数据编辑from id
+        var dlgid = '#dlg';//数据编辑dialog id
+        var url;//action
+        /*查询*/
+        function doSearch(value, name) {
+            var where = '';
+            var state = $('#ddlStatus').combobox('getValue')
+            if (state != '') {
+                if (where != '') {
+                    where += " and ";
+                }
+                where += "Organization_Status=" + state;
+            }
+            doSearch1(dgid, where, value, name, 'GetDataList');
+        }
+        /*刷新数据列表*/
+        function CallBack() {
+            CallBack1(dgid);
+        }
+        /*保存数据*/
+        function doSave(id) {
+            doSave1(dlgid, fmid, url, dgid);
+        }
+        /*删除数据*/
+        function doDelete() {
+            var ids = "";
+            var items = $(dgid).datagrid('getSelections');//返回选中多行
+            for (var i = 0; i < items.length ; i++) {
+                ids = (ids + items[i].Orga_ID) + (((i + 1) == items.length) ? '' : ',');
+            }
+            url = 'Delete';
+            doDelete1(url, ids, dgid);
+        }
+
+        //新建窗口
+        function add() {
+            loadData1(dlgid, fmid, {Organization_Status:0});
+            $('#Orga_ID').textbox('readonly', false);
+            url = 'SaveAdd';
+        }
+        //编辑窗口
+        function edit(index, row) {
+            if (row) {
+                $(dgid).datagrid('unselectAll');
+                $(dgid).datagrid('selectRow', index);
+            }
+            else {
+                row = $(dgid).datagrid('getSelected');
+            }
+            var id = "";
+            if (row) {
+                id = row.Orga_ID;
+                $('#Orga_ID').textbox('readonly', true);
+                url = 'SaveEdit';
+            }
+            loadData2(dlgid, fmid, 'GetModel', id);
+        }        
+        $(function () {
+            doSearch('', 'all');
+            /*无记录样式调整*/
+            var col_count = $(dgid).find('th').size();
+            var data_none = { Orga_ID: data_none_html };
+            fitDatagirdBind(dgid, data_none, 'Orga_ID', col_count - 1, 'ck');
+        });
+    </script>
+}

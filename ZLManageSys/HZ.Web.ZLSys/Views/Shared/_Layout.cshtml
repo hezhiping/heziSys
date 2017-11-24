@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+@using HZ.Web;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/themes/default/easyui.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/themes/color.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/themes/icon.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/themes/Site.css")" rel="stylesheet" />
+    @RenderSection("PageSpecificStyleSheetIncludes", required: false)  
+</head>
+<body>
+    @RenderBody()
+    <script src="@Url.Content("~/Content/Scripts/jquery-1.11.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/Scripts/jquery.easyui.min.js")"></script>
+    <script src="@Url.Content("~/Content/Scripts/lang/easyui-lang-zh_CN.js")"></script>
+    <script src="@Url.Content("~/Content/Scripts/HZ-1.0.js")"></script>
+    <script>
+        jQuery(document).ready(function () {
+            @if(ViewData["MenuID"]!=null)
+            {
+                if (!UserContext.CheckPower(ViewData["MenuID"].ToString(), ButtonKeys.DELETE.ToString()))
+                {
+                    @Html.Raw("$('#DELETE').hide();");
+                }
+                if (!UserContext.CheckPower(ViewData["MenuID"].ToString(), ButtonKeys.ADD.ToString()))
+                {
+                    @Html.Raw("$('#ADD').hide();");
+                }
+                if (!UserContext.CheckPower(ViewData["MenuID"].ToString(), ButtonKeys.MODIFY.ToString()))
+                {
+                    @Html.Raw("$('a[id^=MODIFY]').hide();power_modify=false;");//匹配相应的如MODIFY1 MODIFY2等都使用该
+                }
+                else
+                {
+                    @Html.Raw("power_modify=true;");//双击修改
+                }
+                if (!UserContext.CheckPower(ViewData["MenuID"].ToString(), ButtonKeys.EXPORT.ToString()))
+                {
+                    @Html.Raw("$('a[id=EXPORT]').hide();");
+                }
+                if (!UserContext.CheckPower(ViewData["MenuID"].ToString(), ButtonKeys.ADMIT.ToString()))
+                {
+                    @Html.Raw("$('a[id=ADMIT]').hide();");
+                }
+                if (!UserContext.CheckPower(ViewData["MenuID"].ToString(), ButtonKeys.PRINT.ToString()))
+                {
+                    @Html.Raw("$('a[id=PRINT]').hide();");
+                }
+            }
+        });
+
+    </script>
+    @RenderSection("PageSpecificJavascriptIncludes", required: false)
+</body>
+</html>

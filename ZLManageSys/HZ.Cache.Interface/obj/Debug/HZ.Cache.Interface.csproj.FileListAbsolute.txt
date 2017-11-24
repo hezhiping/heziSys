@@ -1,0 +1,9 @@
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Cache.Interface\bin\Debug\HZ.Cache.Interface.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Cache.Interface\bin\Debug\HZ.Cache.Interface.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Cache.Interface\obj\Debug\HZ.Cache.Interface.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Cache.Interface\obj\Debug\HZ.Cache.Interface.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Cache.Interface\bin\Debug\HZ.Cache.Interface.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Cache.Interface\bin\Debug\HZ.Cache.Interface.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Cache.Interface\obj\Debug\HZ.Cache.Interface.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Cache.Interface\obj\Debug\HZ.Cache.Interface.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Cache.Interface\obj\Debug\HZ.Cache.Interface.csprojResolveAssemblyReference.cache

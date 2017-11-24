@@ -1,0 +1,64 @@
+﻿@using HZ.Data.BLL;
+@using HZ.Data.Model;
+@{
+    ViewBag.Title = "分配岗位";
+    Layout = null;
+    ITC_Position pos = new ITC_Position();
+    List<ITC_Position_M> list_pos = pos.GetList("Position_Status=0");
+    ITC_Organization org = new ITC_Organization();
+    List<ITC_Organization_M> list_org = org.GetList("Organization_Status=0 and Orga_ID<>''");
+    //List<ITC_Organization_M> list_org = org.GetList("Organization_Status=0");
+    ITC_Userinfo usr = new ITC_Userinfo();
+    string userid = Request["userid"];
+}
+@if (userid != null && userid != "")
+{
+<form id="fmPosition" method="post" novalidate="novalidate" style="margin: 5px">
+    <table id="dgPosition" class="table table-striped" style="width:848px;">
+        <thead>
+            <tr>
+                <th style="width:70px; vertical-align:middle;">岗位名称</th>
+@{
+    foreach (ITC_Organization_M o in list_org)
+	{
+	 @Html.Raw("<th style=\"width:1px;vertical-align:top;\">"+o.Organization_FullName.Replace("G","").Replace("-","").Replace("1","一").Replace("2","二").Replace("/","")+"</th>"); //.Replace("塑部","").Replace("削部","").Replace("立部","")
+	}
+          
+}  
+                <th style="width:70px; text-overflow:inherit; vertical-align:middle;">岗位名称</th>     
+            </tr>
+        </thead>
+        <tbody>
+@{
+    foreach (ITC_Position_M p in list_pos)
+    {
+        <tr>
+            <td style="width:70px">@p.Position_name</td>
+    @{
+        foreach (ITC_Organization_M o in list_org)
+        {
+
+            <td style="width:1px"><input name="@(p.Position_ID+"|"+o.Orga_ID)" type="checkbox" @(usr.CheckPositionRange(userid,p.Position_ID,o.Orga_ID)?"checked=\"checked\"":"") /></td>
+        }
+    }
+            <td style="width:70px">@p.Position_name</td>
+        </tr>
+    }
+}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th style="width:70px; vertical-align:middle;">岗位名称</th>
+@{
+    foreach (ITC_Organization_M o in list_org)
+	{
+	 @Html.Raw("<th style=\"width:1px;vertical-align:top;\">"+o.Organization_FullName.Replace("G","").Replace("-","").Replace("1","一").Replace("2","二").Replace("/","").Replace("塑部","").Replace("削部","").Replace("立部","")+"</th>");
+	}
+          
+}  
+                <th style="width:70px; text-overflow:inherit; vertical-align:middle;">岗位名称</th>     
+            </tr>
+        </tfoot>
+    </table>
+</form>    
+}

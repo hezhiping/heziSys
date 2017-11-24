@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "系统日志";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table id="dg" class="easyui-datagrid" title="@ViewBag.Title" style="width: 100%;"
+    data-options="toolbar:'#tb',url:'GetDataList',rownumbers:true,autoRowHeight:false,pagination:true,pageSize:15,pageList:[15,30,50,100],striped:true,method:'post',width:'99%',height:document.documentElement.clientHeight-10">
+    <thead>
+        <tr>
+            <th data-options="field:'ck',checkbox:true"></th>            
+            <th data-options="field:'User_ID',align:'center',sortable:true,width:70">帐号</th> 
+            <th data-options="field:'User_Name',align:'center',sortable:true,width:70">姓名</th>            
+            <th data-options="field:'E_Appname',align:'center',sortable:true,width:100">模块</th>
+            <th data-options="field:'E_Record',align:'center',sortable:true,width:300">操作内容</th>
+            <th data-options="field:'E_Datetime',align:'center',sortable:true,width:100">记录时间</th>
+            <th data-options="field:'E_IP',align:'center',sortable:true,width:100">IP地址</th>
+        </tr>
+    </thead>
+
+</table>
+@*//datagrid工具条*@
+<div id="tb" style="height: auto; padding: 3px;">
+    <div style="text-align: right; line-height:27px;">
+        日期:
+        <input id="staday" class="easyui-datebox" data-options="formatter:DateToStr,parser:StrToDate,editable:false" style="width: 92px" />
+        -
+        <input id="enday" class="easyui-datebox" data-options="formatter:DateToStr,parser:StrToDate,editable:false" style="width: 92px" />
+        <input class="easyui-searchbox" data-options="prompt:'请输入关键字',menu:'#mm',searcher:doSearch" style="width: 300px; height: 24px;" />
+    </div>
+    <div id="mm">
+        <div data-options="name:'all',iconCls:'icon-ok'">全部</div>
+        <div data-options="name:'User_ID'">帐号</div>
+        <div data-options="name:'E_Record'">操作内容</div>
+    </div>
+</div>
+
+@* //JS运行代码*@
+@section PageSpecificJavascriptIncludes{
+<script>
+    var dgid = '#dg';//数据列表tabel id
+    var fmid = '#fmedit';//数据编辑from id
+    var dlgid = '#dlg';//数据编辑dialog id
+    var url;//action
+    /*查询*/
+    function doSearch(value, name) {
+        var where = '';
+        var staday = $('#staday').datebox('getValue');
+        var enday = $('#enday').datebox('getValue');
+        if (staday != "") {
+            if (where != "") {
+                where += " and ";
+            }
+            where += " E_Datetime >= '" + staday + "'";
+        }
+        if (enday != "") {
+            enday = StrDateAdd(enday, 1);
+            if (where != "") {
+                where += " and ";
+            }
+            where += " E_Datetime < '" + enday + "'";
+        }
+        doSearch1(dgid, where, value, name);
+    }
+    /*刷新数据列表*/
+    function CallBack() {
+        CallBack1(dgid);
+    }
+
+    $(function () {
+        $('#staday').datebox('setValue', DateToStr(MonthFirstDate(new Date())));
+        $('#enday').datebox('setValue', DateToStr(new Date()));
+        doSearch('', 'all');
+        /*无记录样式调整*/
+        var col_count = $(dgid).find('th').size();
+        var data_none = { User_ID: data_none_html };
+        fitDatagirdBind(dgid, data_none, 'User_ID', col_count - 1, 'ck');
+    });
+
+</script>
+}

@@ -1,0 +1,14 @@
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Utility\bin\Debug\HZ.Utility.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Utility\bin\Debug\HZ.Utility.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Utility\bin\Debug\HZ.Data.Model.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Utility\bin\Debug\HZ.Data.Model.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Utility\obj\Debug\HZ.Utility.csprojResolveAssemblyReference.cache
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Utility\obj\Debug\HZ.Utility.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Utility\obj\Debug\HZ.Utility.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\bin\Debug\HZ.Utility.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\bin\Debug\HZ.Utility.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\bin\Debug\HZ.Data.Model.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\bin\Debug\HZ.Data.Model.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\obj\Debug\HZ.Utility.csprojResolveAssemblyReference.cache
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\obj\Debug\HZ.Utility.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\obj\Debug\HZ.Utility.pdb

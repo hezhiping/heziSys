@@ -1,0 +1,14 @@
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Data.Interface\bin\Debug\HZ.Data.Interface.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Data.Interface\bin\Debug\HZ.Data.Interface.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Data.Interface\bin\Debug\HZ.Data.Model.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Data.Interface\bin\Debug\HZ.Data.Model.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Data.Interface\obj\Debug\HZ.Data.Interface.csprojResolveAssemblyReference.cache
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Data.Interface\obj\Debug\HZ.Data.Interface.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\SDL.Data.Interface\obj\Debug\HZ.Data.Interface.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\bin\Debug\HZ.Data.Interface.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\bin\Debug\HZ.Data.Interface.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\bin\Debug\HZ.Data.Model.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\bin\Debug\HZ.Data.Model.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\obj\Debug\HZ.Data.Interface.csprojResolveAssemblyReference.cache
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\obj\Debug\HZ.Data.Interface.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\obj\Debug\HZ.Data.Interface.pdb
