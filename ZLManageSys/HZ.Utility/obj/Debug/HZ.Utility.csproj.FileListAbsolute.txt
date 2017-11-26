@@ -12,3 +12,10 @@ E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\bin\Deb
 E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\obj\Debug\HZ.Utility.csprojResolveAssemblyReference.cache
 E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\obj\Debug\HZ.Utility.dll
 E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Utility\obj\Debug\HZ.Utility.pdb
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Utility\bin\Debug\HZ.Utility.dll
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Utility\bin\Debug\HZ.Utility.pdb
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Utility\bin\Debug\HZ.Data.Model.dll
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Utility\bin\Debug\HZ.Data.Model.pdb
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Utility\obj\Debug\HZ.Utility.csprojResolveAssemblyReference.cache
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Utility\obj\Debug\HZ.Utility.dll
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Utility\obj\Debug\HZ.Utility.pdb

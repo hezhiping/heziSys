@@ -12,3 +12,10 @@ E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\
 E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\obj\Debug\HZ.Data.Interface.csprojResolveAssemblyReference.cache
 E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\obj\Debug\HZ.Data.Interface.dll
 E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Data.Interface\obj\Debug\HZ.Data.Interface.pdb
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Interface\bin\Debug\HZ.Data.Interface.dll
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Interface\bin\Debug\HZ.Data.Interface.pdb
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Interface\bin\Debug\HZ.Data.Model.dll
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Interface\bin\Debug\HZ.Data.Model.pdb
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Interface\obj\Debug\HZ.Data.Interface.csprojResolveAssemblyReference.cache
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Interface\obj\Debug\HZ.Data.Interface.dll
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Interface\obj\Debug\HZ.Data.Interface.pdb

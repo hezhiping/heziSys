@@ -1530,6 +1530,7 @@
     <Content Include="html\js\xcharts\xcharts.js" />
     <Content Include="html\js\xcharts\xcharts.min.css" />
     <Content Include="html\js\xcharts\xcharts.min.js" />
+    <Content Include="html\js\副本 script.js" />
     <Content Include="html\login.html" />
     <Content Include="html\login_bg.html" />
     <Content Include="html\mini_sidebar.html" />
@@ -1552,6 +1553,7 @@
     <Content Include="html\wizards_validations.html" />
     <Content Include="html\xcharts.html" />
     <Content Include="html\index_treeview.html" />
+    <Content Include="Views\Shared\menu.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1688,6 +1690,9 @@
     <Content Include="html\font-awesome\scss\_spinning.scss" />
     <Content Include="html\font-awesome\scss\_stacked.scss" />
     <Content Include="html\font-awesome\scss\_variables.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\old_Layout_Master.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

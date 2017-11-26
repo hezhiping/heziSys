@@ -7,3 +7,7 @@ E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Cache.Interface
 E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Cache.Interface\obj\Debug\HZ.Cache.Interface.dll
 E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Cache.Interface\obj\Debug\HZ.Cache.Interface.pdb
 E:\HzpDocuments\C#_myProject\HZManageSys_20171123\ZLManageSys\HZ.Cache.Interface\obj\Debug\HZ.Cache.Interface.csprojResolveAssemblyReference.cache
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Cache.Interface\bin\Debug\HZ.Cache.Interface.dll
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Cache.Interface\bin\Debug\HZ.Cache.Interface.pdb
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Cache.Interface\obj\Debug\HZ.Cache.Interface.dll
+F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Cache.Interface\obj\Debug\HZ.Cache.Interface.pdb
