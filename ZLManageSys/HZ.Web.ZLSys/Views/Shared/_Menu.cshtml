@@ -1,0 +1,114 @@
+﻿@using System.Data;
+@using HZ.Data.BLL;
+@using HZ.Data.Model;
+@using HZ.Web;
+@using System.Configuration;
+
+
+<div id="sidebar" class="sidebar">
+            <div class="sidebar-menu nav-collapse">
+                <div class="divide-20"></div>
+                <!-- SEARCH BAR -->
+                <div id="search-bar">
+                    <input class="search" type="text" placeholder="Search"><i class="fa fa-search search-icon"></i>
+                </div>
+
+                <!-- SIDEBAR MENU -->
+                <ul >
+                    @{                      
+                        #region 测试使用无权限判定
+                        ITC_Userinfo usr = new ITC_Userinfo();
+                        List<ITC_Sysmenus_M> list_smu = usr.GetUserMenus(UserContext.UserID);//Release
+                        #endregion
+                        DataTable dt = new DataTable();
+                        dt.Columns.Add("Menu_ID", typeof(string));
+                        dt.Columns.Add("Menu_Order", typeof(int));
+                        dt.Columns.Add("Menu_ParentID", typeof(string));
+                        dt.Columns.Add("Menu_URl", typeof(string));
+                        dt.Columns.Add("Menu_Name", typeof(string));
+
+                        for (int i = 0; i < list_smu.Count; i++)
+                        {
+                            DataRow row = dt.NewRow();
+                            row["Menu_Name"] = list_smu[i].Menu_Name;
+                            row["Menu_Url"] = list_smu[i].Menu_Url;
+                            if (list_smu[i].Menu_ParentID.ToString().Trim() == "")
+                            {
+                                row["Menu_ParentID"] = DBNull.Value;
+                            }
+                            else
+                            {
+                                row["Menu_ParentID"] = list_smu[i].Menu_ParentID.ToString().Trim();
+                            }
+                            row["Menu_Order"] = list_smu[i].Menu_Order;
+                            row["Menu_ID"] = list_smu[i].Menu_ID.Trim();
+
+                            dt.Rows.Add(row);
+                        }
+                        //加载树形
+                        DataSet ds = new DataSet();
+                        ds.Tables.Add(dt);
+                        ds.Relations.Add("TreeRelation", ds.Tables[0].Columns["Menu_ID"], ds.Tables[0].Columns["Menu_ParentID"]);
+                        DataRow[] drs1 = ds.Tables[0].Select("Menu_ParentID is null");//第一层菜单
+                        if (drs1 != null && drs1.Count() > 0)
+                        {
+                            foreach (DataRow dr1 in drs1)
+                            {
+                                DataRow[] drs2 = dr1.GetChildRows("TreeRelation");//第二层菜单
+                                if (drs2 != null && drs2.Count() > 0)
+                                {
+                                    <li class="has-sub" >
+                                        <a href="javascript:void(0);" class="">
+                                             <i class="fa fa-bookmark-o fa-fw"></i> <span class="sub-menu-text">@dr1["Menu_Name"].ToString()</span>
+                                            <span class="arrow"></span>
+                                        </a>
+                                        <ul class="sub">
+                                            @{
+                                                foreach (DataRow dr2 in drs2)
+                                                {
+                                                    DataRow[] drs3 = dr2.GetChildRows("TreeRelation");//第三层菜单
+                                                    if (drs3 != null && drs3.Count() > 0)
+                                                    {
+                                                        <li class="has-sub-sub" >
+
+                                                            <a href="javascript:void(0);" class=""><span class="sub-menu-text">@dr2["Menu_Name"].ToString()</span>
+                                                                <span class="arrow"></span>
+                                                            </a>
+                                                            <ul class="sub-sub">
+                                                                @{
+                                                                    foreach (DataRow dr3 in drs3)
+                                                                    {
+                                                                        <li><a class="" href="@dr3["Menu_Url"].ToString()" id="@dr3["Menu_ID"].ToString()"  style="display:block;" ><span class="sub-sub-menu-text">@dr3["Menu_Name"].ToString()</span></a></li>
+                                                                    }
+                                                                }
+
+                                                            </ul>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li><a href="@dr2["Menu_Url"].ToString()" id="@dr2["Menu_ID"].ToString()"  class="">
+                                                            <span class="sub-menu-text">@dr2["Menu_Name"].ToString()</span>
+                                                        <span class="selected"></span></a></li>
+                                                    }
+                                                }
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li><a href="@dr1["Menu_Url"].ToString()" id="@dr1["Menu_ID"].ToString()" class="">
+                                        <i class="fa fa-bookmark-o fa-fw"></i> <span class="menu-text">@dr1["Menu_Name"].ToString()</span>
+                                    <span class="selected"></span></a></li>
+                                }
+                            }
+                        }
+                    
+                    }
+
+                </ul>
+              
+                <!-- /SIDEBAR MENU -->
+            </div>
+        </div>

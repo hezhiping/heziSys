@@ -1,7 +1,6 @@
 var App = function () {
 
 	var currentPage = ''; // current page
-	var collapsed = false; //sidebar collapsed
 	var is_mobile = false; //is screen mobile?
 	var is_mini_menu = false; //is mini-menu activated
 	var is_fixed_header = false; //is fixed header activated
@@ -59,9 +58,10 @@ var App = function () {
         }
     }
 	/*-----------------------------------------------------------------------------------*/
-	/*	Sidebar
+	/*	Sidebar  
 	/*-----------------------------------------------------------------------------------*/
 	var handleSidebar = function () {
+	    //点击菜单跳转事件 sub menus
 	jQuery('.sidebar-menu .has-sub > a').click(function () {
             var last = jQuery('.has-sub.open', $('.sidebar-menu'));
             last.removeClass("open");
@@ -96,21 +96,21 @@ var App = function () {
 		
 	// Handle sub-sub menus
 	jQuery('.sidebar-menu .has-sub .sub .has-sub-sub > a').click(function () {
-            var last = jQuery('.has-sub-sub.open', $('.sidebar-menu'));
-            last.removeClass("open");
-            jQuery('.arrow', last).removeClass("open");
-            jQuery('.sub', last).slideUp(200);
+            //var last = jQuery('.has-sub-sub.open', $('.sidebar-menu'));
+            //last.removeClass("open");
+            //jQuery('.arrow', last).removeClass("open");
+            //jQuery('.sub', last).slideUp(200);
                 
-            var sub = jQuery(this).next();
-            if (sub.is(":visible")) {
-                jQuery('.arrow', jQuery(this)).removeClass("open");
-                jQuery(this).parent().removeClass("open");
-                sub.slideUp(200);
-            } else {
-                jQuery('.arrow', jQuery(this)).addClass("open");
-                jQuery(this).parent().addClass("open");
-                sub.slideDown(200);
-            }
+            //var sub = jQuery(this).next();
+            //if (sub.is(":visible")) {
+            //    jQuery('.arrow', jQuery(this)).removeClass("open");
+            //    jQuery(this).parent().removeClass("open");
+            //    sub.slideUp(200);
+            //} else {
+            //    jQuery('.arrow', jQuery(this)).addClass("open");
+            //    jQuery(this).parent().addClass("open");
+            //    sub.slideDown(200);
+            //}
         });
 	}
 	
@@ -130,7 +130,7 @@ var App = function () {
 		jQuery('.sidebar-collapse i').addClass(iconRight);
 		/* Remove placeholder from Search Bar */
 		jQuery('.search').attr('placeholder', '');
-		collapsed = true;
+		collapsed = false;
 		/* Set a cookie so that mini-sidebar persists */
 		$.cookie('mini_sidebar', '1');
 	}
@@ -154,8 +154,8 @@ var App = function () {
 				menu.slimScroll({
 					destroy: true
 				});
-				menu.removeAttr('style');
-				$('#sidebar').removeAttr('style');
+				//menu.removeAttr('style');
+				//$('#sidebar').removeAttr('style');
 			}
 		}
 	}
@@ -1134,7 +1134,7 @@ var App = function () {
 		//To add font awesome support
 		$('.tree').find('[class*="fa-"]').addClass("fa");
 	}
-	
+
 	/*-----------------------------------------------------------------------------------*/
 	/*	Nestable Lists
 	/*-----------------------------------------------------------------------------------*/
@@ -2528,7 +2528,7 @@ var App = function () {
 				handleKnobs();	//Function to display knobs
             }
 			if (App.isPage("treeview")) {
-				handleTree();	//Function to handle tree display
+			    //handleTree();	//Function to handle tree display			   
 			}
 			if (App.isPage("nestable_lists")) {
 				handleNestableLists();	//Function to handle nestable lists
