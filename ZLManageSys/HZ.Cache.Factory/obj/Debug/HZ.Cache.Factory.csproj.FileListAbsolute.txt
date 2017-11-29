@@ -25,3 +25,12 @@ F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Cache.Factory\bin\Debug\HZ.Cache.Int
 F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Cache.Factory\obj\Debug\HZ.Cache.Factory.csprojResolveAssemblyReference.cache
 F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Cache.Factory\obj\Debug\HZ.Cache.Factory.dll
 F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Cache.Factory\obj\Debug\HZ.Cache.Factory.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Cache.Factory\bin\Debug\HZ.Cache.Factory.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Cache.Factory\bin\Debug\HZ.Cache.Factory.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Cache.Factory\bin\Debug\HZ.Cache.InProc.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Cache.Factory\bin\Debug\HZ.Cache.Interface.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Cache.Factory\bin\Debug\HZ.Cache.InProc.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Cache.Factory\bin\Debug\HZ.Cache.Interface.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Cache.Factory\obj\Debug\HZ.Cache.Factory.csprojResolveAssemblyReference.cache
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Cache.Factory\obj\Debug\HZ.Cache.Factory.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Cache.Factory\obj\Debug\HZ.Cache.Factory.pdb

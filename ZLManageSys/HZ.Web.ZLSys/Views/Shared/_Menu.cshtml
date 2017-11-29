@@ -59,7 +59,7 @@
                                 {
                                     <li class="has-sub" >
                                         <a href="javascript:void(0);" class="">
-                                             <i class="fa fa-bookmark-o fa-fw"></i> <span class="sub-menu-text">@dr1["Menu_Name"].ToString()</span>
+                                             <i class="fa fa-bookmark-o fa-fw"></i> <span class="menu-text">@dr1["Menu_Name"].ToString()</span>
                                             <span class="arrow"></span>
                                         </a>
                                         <ul class="sub">
@@ -78,7 +78,7 @@
                                                                 @{
                                                                     foreach (DataRow dr3 in drs3)
                                                                     {
-                                                                        <li><a class="" href="@dr3["Menu_Url"].ToString()" id="@dr3["Menu_ID"].ToString()"  style="display:block;" ><span class="sub-sub-menu-text">@dr3["Menu_Name"].ToString()</span></a></li>
+                                                                        <li><a class="" href="@dr3["Menu_Url"].ToString()" id="@dr3["Menu_ID"].ToString()"  ><span class="sub-sub-menu-text">@dr3["Menu_Name"].ToString()</span></a></li>
                                                                     }
                                                                 }
 
@@ -111,4 +111,4 @@
               
                 <!-- /SIDEBAR MENU -->
             </div>
-        </div>
+</div>

@@ -1,307 +1,468 @@
 ﻿@{
-    ViewBag.Title = "用户管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*数据列表*@
-<table id="dg" class="easyui-datagrid" title="@ViewBag.Title" iconcls="icon-page"
-    data-options="toolbar:'#tb',url:'GetDataList',rownumbers:true,autoRowHeight:false,pagination:true,pageSize:15,pageList:[15,30,50,100],striped:true,method:'post',width:'99%',height:document.documentElement.clientHeight-10,onDblClickRow:edit">
-    <thead>
-        <tr>
-            <th data-options="field:'ck',checkbox:true,width:40"></th>
-            <th data-options="field:'Orga_Name',align:'center',width:150">所属组织</th>
-            <th data-options="field:'User_ID',align:'center',width:70">帐号</th>
-            <th data-options="field:'User_Name',align:'center',width:60">姓名</th>
-            <th data-options="field:'User_Sex',align:'center',width:50">性别</th>
-            <th data-options="field:'User_Email',align:'center',width:150">用户邮箱</th>
-            <th data-options="
-                field:'User_Status',
-                align:'center',
-                width:50,
-                styler: function(value,row,index){
-		                    if (value == '冻结') {
-		                        return 'color:red;';
-		                    }
-		                }">状态</th>
-            <th data-options="field:'User_Createdtime',align:'center',width:110">创建日期</th>
-            <th data-options="field:'User_Oprt',align:'center',width:60">操作者</th>            
-            <th data-options="field:'User_Remark',align:'center',width:100">备注</th>            
-        </tr>
-    </thead>
-</table>
-@*datagrid工具条*@
-<div id="tb" style="height: auto; padding: 3px;">
-    <a id="ADD" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" onclick="add()">添加</a>
-    <a id="MODIFY" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-edit" onclick="edit()">编辑</a>
-    <a id="DELETE" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-remove" onclick="doDelete()">删除</a>
-    <a id="MODIFY2" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-edit" onclick="editPosition()">分配岗位</a>
-    <a id="MODIFY3" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-edit" onclick="editRoles()">分配角色</a>
-    <div style="float:right; line-height:27px;">
-        所属组织:
-            <input id="ddlOrga" class="easyui-combobox" data-options="
-					url:'/Organization/GetDataList3', 
-					valueField:'Orga_ID',
-					textField:'Organization_FullName',
-                    editable:false"
-                style="width: 170px; height: 24px">
-        <input class="easyui-searchbox" data-options="prompt:'请输入关键字',menu:'#mm',searcher:doSearch" style="width: 300px; height: 24px;" />
-    </div>
-    <div id="mm">
-        <div data-options="name:'all',iconCls:'icon-ok'">全部</div>
-        <div data-options="name:'User_ID'">工号</div>
-        <div data-options="name:'User_Name'">用户名称</div>
-    </div>
-</div>
-@*编辑窗体*@
-<div id="dlg" class="easyui-dialog" data-options="iconCls:'icon-save',closed:true,modal:true,shadow:true" buttons="#dlg-buttons" style="width: 340px;">
-    <form id="fmedit" method="post" style="margin: 5px">
-        <div class="editor-label">工号:</div>
-        <div class="editor-field">
-            <input class="easyui-textbox" name="User_ID" data-options="prompt:'工号',required:true,onChange:GetUserInfo" style="width: 100%; height: 22px">
-        </div>
-        <div class="editor-label">姓名:</div>
-        <div class="editor-field">
-            <input id="User_Name" class="easyui-textbox" name="User_Name" required="required" style="width: 100%; height: 22px">
-        </div>
-        <div class="editor-label">所属组织:</div>
-        <div class="editor-field">
-            <input id="Orga_ID" class="easyui-combobox" name="Orga_ID" data-options="
-					url:'/Organization/GetDataList2', 
-					valueField:'Orga_ID',
-					textField:'Organization_FullName', 
-					required:true,
-                    editable:false"
-                style="width: 100%; height: 22px">
-        </div>       
-        <div class="editor-label">名称简拼:</div>
-        <div class="editor-field">
-            <input id="User_Spelling" class="easyui-textbox" name="User_Spelling" style="width: 100%; height: 22px">
-        </div>
+<h2>用户信息</h2>
 
-        <div class="editor-label">性别:</div>
-        <div class="editor-field">
-            <input id="User_Sex0" name="User_Sex" style="width: 20px; height: 10px; background-color: white" type="radio" value="true" checked="checked" />男
-			<input id="User_Sex1" name="User_Sex" style="width: 20px; height: 10px; background-color: white" type="radio" value="false" />女
-        </div>
-        <div class="editor-label">电话:</div>
-        <div class="editor-field">
-            <input id="User_Tel" class="easyui-textbox" name="User_Tel" style="width: 100%; height: 22px">
-        </div>
-        <div class="editor-label">移动电话:</div>
-        <div class="editor-field">
-            <input id="User_Mobile" class="easyui-numberbox" name="User_Mobile" style="width: 100%; height: 22px">
-        </div>        
-        <div class="editor-label">邮箱:</div>
-        <div class="editor-field">
-            <input class="easyui-textbox" data-options="validType:'email'" name="User_Email" style="width: 100%; height: 22px">
-        </div>
-        <div class="editor-label">备注:</div>
-        <div class="editor-field">
-            <input class="easyui-textbox" name="User_Remark" data-options="multiline:true" style="width: 100%; height: 42px">
-        </div>
-        <div class="editor-label">状态:</div>
-        <div class="editor-field">
-            <input checked="checked" name="User_Status" style="width: 20px; height: 10px; background-color: white" type="radio" value="0" />正常
-			<input name="User_Status" style="width: 20px; height: 10px; background-color: white" type="radio" value="1" />冻结
-        </div>
+		<!-- DATA TABLES -->
+						<div class="row">
+							<div class="col-md-12">
+								<!-- BOX -->
+								<div class="box border green">
+									<div class="box-title">
+										<h4><i class="fa fa-table"></i>Dynamic Data Tables</h4>
+										<div class="tools hidden-xs">
+											<a href="#box-config" data-toggle="modal" class="config">
+												<i class="fa fa-cog"></i>
+											</a>
+											<a href="javascript:;" class="reload">
+												<i class="fa fa-refresh"></i>
+											</a>
+											<a href="javascript:;" class="collapse">
+												<i class="fa fa-chevron-up"></i>
+											</a>
+											<a href="javascript:;" class="remove">
+												<i class="fa fa-times"></i>
+											</a>
+										</div>
+									</div>
+									<div class="box-body">
+										<table id="datatable1" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover">
+											<thead>
+												<tr>
+													<th>Rendering engine</th>
+													<th>Browser</th>
+													<th class="hidden-xs">Platform(s)</th>
+													<th>Engine version</th>
+													<th class="hidden-xs">CSS grade</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="gradeX">
+													<td>Trident</td>
+													<td>
+														Internet
+														 Explorer 
+														4.0
+														</td>
+													<td class="hidden-xs">Win 95+</td>
+													<td class="center">4</td>
+													<td class="center hidden-xs">X</td>
+												</tr>
+												<tr class="gradeC">
+													<td>Trident</td>
+													<td>Internet
+														 Explorer 5.0</td>
+													<td class="hidden-xs">Win 95+</td>
+													<td class="center">5</td>
+													<td class="center hidden-xs">C</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Trident</td>
+													<td>Internet
+														 Explorer 5.5</td>
+													<td class="hidden-xs">Win 95+</td>
+													<td class="center">5.5</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Trident</td>
+													<td>Internet
+														 Explorer 6</td>
+													<td class="hidden-xs">Win 98+</td>
+													<td class="center">6</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Trident</td>
+													<td>Internet Explorer 7</td>
+													<td class="hidden-xs">Win XP SP2+</td>
+													<td class="center">7</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Trident</td>
+													<td>AOL browser (AOL desktop)</td>
+													<td class="hidden-xs">Win XP</td>
+													<td class="center">6</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Firefox 1.0</td>
+													<td class="hidden-xs">Win 98+ / OSX.2+</td>
+													<td class="center">1.7</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Firefox 1.5</td>
+													<td class="hidden-xs">Win 98+ / OSX.2+</td>
+													<td class="center">1.8</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Firefox 2.0</td>
+													<td class="hidden-xs">Win 98+ / OSX.2+</td>
+													<td class="center">1.8</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Firefox 3.0</td>
+													<td class="hidden-xs">Win 2k+ / OSX.3+</td>
+													<td class="center">1.9</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Camino 1.0</td>
+													<td class="hidden-xs">OSX.2+</td>
+													<td class="center">1.8</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Camino 1.5</td>
+													<td class="hidden-xs">OSX.3+</td>
+													<td class="center">1.8</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Netscape 7.2</td>
+													<td class="hidden-xs">Win 95+ / Mac OS 8.6-9.2</td>
+													<td class="center">1.7</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Netscape Browser 8</td>
+													<td class="hidden-xs">Win 98SE+</td>
+													<td class="center">1.7</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Netscape Navigator 9</td>
+													<td class="hidden-xs">Win 98+ / OSX.2+</td>
+													<td class="center">1.8</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Mozilla 1.0</td>
+													<td class="hidden-xs">Win 95+ / OSX.1+</td>
+													<td class="center">1</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Mozilla 1.1</td>
+													<td class="hidden-xs">Win 95+ / OSX.1+</td>
+													<td class="center">1.1</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Mozilla 1.2</td>
+													<td class="hidden-xs">Win 95+ / OSX.1+</td>
+													<td class="center">1.2</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Mozilla 1.3</td>
+													<td class="hidden-xs">Win 95+ / OSX.1+</td>
+													<td class="center">1.3</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Mozilla 1.4</td>
+													<td class="hidden-xs">Win 95+ / OSX.1+</td>
+													<td class="center">1.4</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Mozilla 1.5</td>
+													<td class="hidden-xs">Win 95+ / OSX.1+</td>
+													<td class="center">1.5</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Mozilla 1.6</td>
+													<td class="hidden-xs">Win 95+ / OSX.1+</td>
+													<td class="center">1.6</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Mozilla 1.7</td>
+													<td class="hidden-xs">Win 98+ / OSX.1+</td>
+													<td class="center">1.7</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Mozilla 1.8</td>
+													<td class="hidden-xs">Win 98+ / OSX.1+</td>
+													<td class="center">1.8</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Seamonkey 1.1</td>
+													<td class="hidden-xs">Win 98+ / OSX.2+</td>
+													<td class="center">1.8</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Gecko</td>
+													<td>Epiphany 2.20</td>
+													<td class="hidden-xs">Gnome</td>
+													<td class="center">1.8</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Webkit</td>
+													<td>Safari 1.2</td>
+													<td class="hidden-xs">OSX.3</td>
+													<td class="center">125.5</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Webkit</td>
+													<td>Safari 1.3</td>
+													<td class="hidden-xs">OSX.3</td>
+													<td class="center">312.8</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Webkit</td>
+													<td>Safari 2.0</td>
+													<td class="hidden-xs">OSX.4+</td>
+													<td class="center">419.3</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Webkit</td>
+													<td>Safari 3.0</td>
+													<td class="hidden-xs">OSX.4+</td>
+													<td class="center">522.1</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Webkit</td>
+													<td>OmniWeb 5.5</td>
+													<td class="hidden-xs">OSX.4+</td>
+													<td class="center">420</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Webkit</td>
+													<td>iPod Touch / iPhone</td>
+													<td class="hidden-xs">iPod</td>
+													<td class="center">420.1</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Webkit</td>
+													<td>S60</td>
+													<td class="hidden-xs">S60</td>
+													<td class="center">413</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Opera 7.0</td>
+													<td class="hidden-xs">Win 95+ / OSX.1+</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Opera 7.5</td>
+													<td class="hidden-xs">Win 95+ / OSX.2+</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Opera 8.0</td>
+													<td class="hidden-xs">Win 95+ / OSX.2+</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Opera 8.5</td>
+													<td class="hidden-xs">Win 95+ / OSX.2+</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Opera 9.0</td>
+													<td class="hidden-xs">Win 95+ / OSX.3+</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Opera 9.2</td>
+													<td class="hidden-xs">Win 88+ / OSX.3+</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Opera 9.5</td>
+													<td class="hidden-xs">Win 88+ / OSX.3+</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Opera for Wii</td>
+													<td class="hidden-xs">Wii</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Nokia N800</td>
+													<td class="hidden-xs">N800</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Presto</td>
+													<td>Nintendo DS browser</td>
+													<td class="hidden-xs">Nintendo DS</td>
+													<td class="center">8.5</td>
+													<td class="center hidden-xs">C/A<sup>1</sup></td>
+												</tr>
+												<tr class="gradeC">
+													<td>KHTML</td>
+													<td>Konqureror 3.1</td>
+													<td class="hidden-xs">KDE 3.1</td>
+													<td class="center">3.1</td>
+													<td class="center hidden-xs">C</td>
+												</tr>
+												<tr class="gradeA">
+													<td>KHTML</td>
+													<td>Konqureror 3.3</td>
+													<td class="hidden-xs">KDE 3.3</td>
+													<td class="center">3.3</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeA">
+													<td>KHTML</td>
+													<td>Konqureror 3.5</td>
+													<td class="hidden-xs">KDE 3.5</td>
+													<td class="center">3.5</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeX">
+													<td>Tasman</td>
+													<td>Internet Explorer 4.5</td>
+													<td class="hidden-xs">Mac OS 8-9</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">X</td>
+												</tr>
+												<tr class="gradeC">
+													<td>Tasman</td>
+													<td>Internet Explorer 5.1</td>
+													<td class="hidden-xs">Mac OS 7.6-9</td>
+													<td class="center">1</td>
+													<td class="center hidden-xs">C</td>
+												</tr>
+												<tr class="gradeC">
+													<td>Tasman</td>
+													<td>Internet Explorer 5.2</td>
+													<td class="hidden-xs">Mac OS 8-X</td>
+													<td class="center">1</td>
+													<td class="center hidden-xs">C</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Misc</td>
+													<td>NetFront 3.1</td>
+													<td class="hidden-xs">Embedded devices</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">C</td>
+												</tr>
+												<tr class="gradeA">
+													<td>Misc</td>
+													<td>NetFront 3.4</td>
+													<td class="hidden-xs">Embedded devices</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">A</td>
+												</tr>
+												<tr class="gradeX">
+													<td>Misc</td>
+													<td>Dillo 0.8</td>
+													<td class="hidden-xs">Embedded devices</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">X</td>
+												</tr>
+												<tr class="gradeX">
+													<td>Misc</td>
+													<td>Links</td>
+													<td class="hidden-xs">Text only</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">X</td>
+												</tr>
+												<tr class="gradeX">
+													<td>Misc</td>
+													<td>Lynx</td>
+													<td class="hidden-xs">Text only</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">X</td>
+												</tr>
+												<tr class="gradeC">
+													<td>Misc</td>
+													<td>IE Mobile</td>
+													<td class="hidden-xs">Windows Mobile 6</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">C</td>
+												</tr>
+												<tr class="gradeC">
+													<td>Misc</td>
+													<td>PSP browser</td>
+													<td class="hidden-xs">PSP</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">C</td>
+												</tr>
+												<tr class="gradeU">
+													<td>Other browsers</td>
+													<td class="hidden-xs">All others</td>
+													<td>-</td>
+													<td class="center">-</td>
+													<td class="center hidden-xs">U</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<th>Rendering engine</th>
+													<th>Browser</th>
+													<th class="hidden-xs">Platform(s)</th>
+													<th>Engine version</th>
+													<th class="hidden-xs">CSS grade</th>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+								<!-- /BOX -->
+							</div>
+						</div>
+						<!-- /DATA TABLES -->
+						<div class="separator"></div>
 
-    </form>
-    <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" id="SAVE" onclick="doSave(this.id)">确定</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-clear" onclick="javascript:$('#dlg').dialog('close');">关闭</a>
-    </div>
-</div>
-@*岗位分配*@
-<div id="dlgPosition" iconcls="icon-save" buttons="#dlg-buttons-Position"></div>
-<div id="dlg-buttons-Position" style="display:none">
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="doSavePosition()">确定</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-clear" onclick="javascript:$('#dlgPosition').dialog('close');">关闭</a>
-</div>
-@*角色分配*@
-<div id="dlgRoles" iconcls="icon-save" buttons="#dlg-buttons-Roles"></div>
-<div id="dlg-buttons-Roles" style="display:none">
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="doSaveRoles()">确定</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-clear" onclick="javascript:$('#dlgRoles').dialog('close');">关闭</a>
-</div>
-@section PageSpecificJavascriptIncludes{
-    <script>
-        var dgid = '#dg';//数据列表tabel id
-        var fmid = '#fmedit';//数据编辑from id
-        var dlgid = '#dlg';//数据编辑dialog id
-        var url;//action
-        var userid;//用户ID
-        var isadd = false;
-        /*查询*/
-        function doSearch(value, name) {
-            var where = '';
-            var orgaid = $('#ddlOrga').combobox('getValue')
-            if (orgaid != '') {
-                where = "Orga_ID='" + orgaid + "'";
-            }
-            doSearch1(dgid, where, value, name);
-        }
-        /*刷新数据列表*/
-        function CallBack() {
-            CallBack1(dgid);
-        }
-        /*保存数据*/
-        function doSave(id) {
-            doSave1(dlgid, fmid, url, dgid);
-        }
-        /*删除数据*/
-        function doDelete() {
-            var ids = "";
-            var items = $(dgid).datagrid('getSelections');//返回选中多行
-            for (var i = 0; i < items.length ; i++) {
-                ids = (ids + items[i].User_ID) + (((i + 1) == items.length) ? '' : ',');
-            }
-            url = 'Delete';
-            doDelete1(url, ids, dgid);
-        }
 
-        //新建窗口
-        function add() {
-            loadData1(dlgid, fmid, { User_Status: 0, User_Sex: true });
-            $('#User_ID').textbox('readonly', false);
-            url = 'SaveAdd';
-            isadd = true;
-        }
-        //编辑窗口
-        function edit(index, row) {
-            if (row) {
-                $(dgid).datagrid('unselectAll');
-                $(dgid).datagrid('selectRow', index);
-            }
-            else {
-                row = $(dgid).datagrid('getSelected');
-            }
-            var id = "";
-            if (row) {
-                id = row.User_ID;
-                $('#User_ID').textbox('readonly', true);
-                url = 'SaveEdit';
-            }
-            loadData2(dlgid, fmid, 'GetModel', id);
-            isadd = false;
-        }        
-        
-        $(function () {
-            /*无记录样式调整*/
-            var col_count = $(dgid).find('th').size();
-            var data_none = { Orga_Name: data_none_html };
-            fitDatagirdBind(dgid, data_none, 'Orga_Name', col_count - 1, 'ck');
-        });
 
-        /*打开岗位分配编辑窗体*/
-        function editPosition() {
-            var row = $(dgid).datagrid('getSelected');
-            if (row) {
-                userid = row.User_ID;
-                var username = row.User_Name;
-                $('#dlgPosition').dialog({
-                    title: '分配岗位[' + userid + '][' + username + ']',
-                    //href: '/UserInfo/UserPosition?userid=' + userid,
-                    width: 860,
-                    height: 480,
-                    shadow: true,
-                    modal: true
-                });
-                $('#dlgPosition').dialog('refresh', '/UserInfo/UserPosition?userid=' + userid);
-            }
-            else {
-                $.messager.alert("提示", "请选择一条记录！", "warning");
-            }
-        }
-        /*保存岗位分配*/
-        function doSavePosition() {
-            $("#fmPosition").form('submit', {
-                url: 'SavePosition?userid=' + userid,
-                success: function (result) {
-                    if (result == "保存成功!") {
-                        $('#dlgPosition').dialog('close');
-                        //$.messager.alert("提示", result);
-                        CallBack1(dgid);//重载记录
-                    }
-                    else {
-                        $.messager.alert("提示", result);
-                    }
-                }
-            });
-        }
 
-        /*打开角色分配编辑窗体*/
-        function editRoles() {
-            var row = $(dgid).datagrid('getSelected');
-            if (row) {
-                userid = row.User_ID;
-                var username = row.User_Name;
-                $('#dlgRoles').dialog({
-                    title: '分配角色[' + userid + '][' + username + ']',
-                    //href: '/UserInfo/UserRoles?userid=' + userid,
-                    width: 300,
-                    height: 480,
-                    shadow: true,
-                    modal: true
-                });
-                $('#dlgRoles').dialog('refresh', '/UserInfo/UserRoles?userid=' + userid);
-            }
-            else {
-                $.messager.alert("提示", "请选择一条记录！", "warning");
-            }
-        }
-        /*保存角色分配*/
-        function doSaveRoles() {
-            $("#fmRoles").form('submit', {
-                url: 'SaveRoles?userid=' + userid,
-                success: function (result) {
-                    if (result == "保存成功!") {
-                        $('#dlgRoles').dialog('close');
-                        //$.messager.alert("提示", result);
-                        CallBack1(dgid);//重载记录
-                    }
-                    else {
-                        $.messager.alert("提示", result);
-                    }
-                }
-            });
-        }
-
-        //编辑信息，获取组织部门信息
-        function GetUserInfo(newvalue, oldvalue) {
-            if (isadd) {
-                $.ajax({
-                    type: 'get',
-                    url: 'GetUserModel',
-                    data: { 'userid': newvalue },
-                    dataType: 'json',
-                    cache: false,
-                    success: function (data) {
-                        if (data) {
-                            $('#User_Name').textbox('setValue', data['EmpName']);
-                            $('#User_Spelling').textbox('setValue', data['PinYin']);
-                            $('#User_Mobile').textbox('setValue', data['Phone']);
-                            if (data['Sex'] == '男') {
-                                $('#User_Sex0').prop('checked', 'checked');
-                                $('#User_Sex1').removeAttr('checked');
-                            }
-                            else {
-                                $('#User_Sex1').prop('checked', 'checked');
-                                $('#User_Sex0').removeAttr('checked');
-                            }
-                            $.ajax({
-                                type: 'get',
-                                url: 'GetOragID',
-                                data: { 'deptcode': data['DeptCode'] },
-                                cache: false,
-                                success: function (orgaid) {
-                                    $('#Orga_ID').combobox('setValue', orgaid);
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-        }
-
-    </script>
-}

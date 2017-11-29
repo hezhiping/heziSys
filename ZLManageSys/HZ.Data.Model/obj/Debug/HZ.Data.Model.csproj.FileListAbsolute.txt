@@ -11,3 +11,8 @@ F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Model\bin\Debug\HZ.Data.Model.d
 F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Model\bin\Debug\HZ.Data.Model.pdb
 F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Model\obj\Debug\HZ.Data.Model.dll
 F:\OverFight\heziSys\heziSys\ZLManageSys\HZ.Data.Model\obj\Debug\HZ.Data.Model.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Data.Model\bin\Debug\HZ.Data.Model.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Data.Model\bin\Debug\HZ.Data.Model.pdb
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Data.Model\obj\Debug\HZ.Data.Model.csprojResolveAssemblyReference.cache
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Data.Model\obj\Debug\HZ.Data.Model.dll
+E:\HzpDocuments\C#_myProject\HZManageSys_20171123\heziSys\ZLManageSys\HZ.Data.Model\obj\Debug\HZ.Data.Model.pdb

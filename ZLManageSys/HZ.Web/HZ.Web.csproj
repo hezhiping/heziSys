@@ -55,6 +55,7 @@
     <Compile Include="OrgaContext.cs" />
     <Compile Include="PageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticFileHelper.cs" />
     <Compile Include="UserContext.cs" />
   </ItemGroup>
   <ItemGroup>

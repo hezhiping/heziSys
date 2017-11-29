@@ -1400,7 +1400,7 @@
     <Content Include="html\js\nestable\jquery.nestable.min.js" />
     <Content Include="html\js\prettify\prettify.css" />
     <Content Include="html\js\prettify\prettify.js" />
-    <Content Include="html\js\script.js" />
+    <Content Include="html\js\myscript.js" />
     <Content Include="html\js\select2\select2-spinner.gif" />
     <Content Include="html\js\select2\select2.min.css" />
     <Content Include="html\js\select2\select2.min.js" />
@@ -1530,7 +1530,7 @@
     <Content Include="html\js\xcharts\xcharts.js" />
     <Content Include="html\js\xcharts\xcharts.min.css" />
     <Content Include="html\js\xcharts\xcharts.min.js" />
-    <Content Include="html\js\副本 script.js" />
+    <Content Include="html\js\script.js" />
     <Content Include="html\login.html" />
     <Content Include="html\login_bg.html" />
     <Content Include="html\mini_sidebar.html" />
@@ -1561,7 +1561,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1593,27 +1592,27 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Login\logindefault.cshtml" />
+    <Content Include="Views\Home\Login\logindefault.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Buttons\Index.cshtml" />
-    <Content Include="Views\Organization\Index.cshtml" />
-    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Buttons\bak_Index.cshtml" />
+    <Content Include="Views\Organization\bak_Index.cshtml" />
+    <Content Include="Views\Roles\bak_Index.cshtml" />
     <Content Include="Views\Roles\RoleRights.cshtml" />
-    <Content Include="Views\SysEvent\Index.cshtml" />
-    <Content Include="Views\Sysmenus\Index.cshtml" />
-    <Content Include="Views\UserInfo\Index.cshtml" />
+    <Content Include="Views\SysEvent\bak_Index.cshtml" />
+    <Content Include="Views\Sysmenus\bak_Index.cshtml" />
+    <Content Include="Views\UserInfo\bak_Index.cshtml" />
     <Content Include="Views\UserInfo\UserPosition.cshtml" />
     <Content Include="Views\UserInfo\UserRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_Layout_Master.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Home\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="html\img\logo\Cloud.psd" />
@@ -1693,6 +1692,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\old_Layout_Master.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Header.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Menu.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Buttons\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Organization\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Roles\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SysEvent\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Sysmenus\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\UserInfo\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

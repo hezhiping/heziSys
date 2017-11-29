@@ -1,0 +1,307 @@
+﻿@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*数据列表*@
+<table id="dg" class="easyui-datagrid" title="@ViewBag.Title" iconcls="icon-page"
+    data-options="toolbar:'#tb',url:'GetDataList',rownumbers:true,autoRowHeight:false,pagination:true,pageSize:15,pageList:[15,30,50,100],striped:true,method:'post',width:'99%',height:document.documentElement.clientHeight-10,onDblClickRow:edit">
+    <thead>
+        <tr>
+            <th data-options="field:'ck',checkbox:true,width:40"></th>
+            <th data-options="field:'Orga_Name',align:'center',width:150">所属组织</th>
+            <th data-options="field:'User_ID',align:'center',width:70">帐号</th>
+            <th data-options="field:'User_Name',align:'center',width:60">姓名</th>
+            <th data-options="field:'User_Sex',align:'center',width:50">性别</th>
+            <th data-options="field:'User_Email',align:'center',width:150">用户邮箱</th>
+            <th data-options="
+                field:'User_Status',
+                align:'center',
+                width:50,
+                styler: function(value,row,index){
+		                    if (value == '冻结') {
+		                        return 'color:red;';
+		                    }
+		                }">状态</th>
+            <th data-options="field:'User_Createdtime',align:'center',width:110">创建日期</th>
+            <th data-options="field:'User_Oprt',align:'center',width:60">操作者</th>            
+            <th data-options="field:'User_Remark',align:'center',width:100">备注</th>            
+        </tr>
+    </thead>
+</table>
+@*datagrid工具条*@
+<div id="tb" style="height: auto; padding: 3px;">
+    <a id="ADD" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" onclick="add()">添加</a>
+    <a id="MODIFY" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-edit" onclick="edit()">编辑</a>
+    <a id="DELETE" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-remove" onclick="doDelete()">删除</a>
+    <a id="MODIFY2" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-edit" onclick="editPosition()">分配岗位</a>
+    <a id="MODIFY3" href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-edit" onclick="editRoles()">分配角色</a>
+    <div style="float:right; line-height:27px;">
+        所属组织:
+            <input id="ddlOrga" class="easyui-combobox" data-options="
+					url:'/Organization/GetDataList3', 
+					valueField:'Orga_ID',
+					textField:'Organization_FullName',
+                    editable:false"
+                style="width: 170px; height: 24px">
+        <input class="easyui-searchbox" data-options="prompt:'请输入关键字',menu:'#mm',searcher:doSearch" style="width: 300px; height: 24px;" />
+    </div>
+    <div id="mm">
+        <div data-options="name:'all',iconCls:'icon-ok'">全部</div>
+        <div data-options="name:'User_ID'">工号</div>
+        <div data-options="name:'User_Name'">用户名称</div>
+    </div>
+</div>
+@*编辑窗体*@
+<div id="dlg" class="easyui-dialog" data-options="iconCls:'icon-save',closed:true,modal:true,shadow:true" buttons="#dlg-buttons" style="width: 340px;">
+    <form id="fmedit" method="post" style="margin: 5px">
+        <div class="editor-label">工号:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="User_ID" data-options="prompt:'工号',required:true,onChange:GetUserInfo" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">姓名:</div>
+        <div class="editor-field">
+            <input id="User_Name" class="easyui-textbox" name="User_Name" required="required" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">所属组织:</div>
+        <div class="editor-field">
+            <input id="Orga_ID" class="easyui-combobox" name="Orga_ID" data-options="
+					url:'/Organization/GetDataList2', 
+					valueField:'Orga_ID',
+					textField:'Organization_FullName', 
+					required:true,
+                    editable:false"
+                style="width: 100%; height: 22px">
+        </div>       
+        <div class="editor-label">名称简拼:</div>
+        <div class="editor-field">
+            <input id="User_Spelling" class="easyui-textbox" name="User_Spelling" style="width: 100%; height: 22px">
+        </div>
+
+        <div class="editor-label">性别:</div>
+        <div class="editor-field">
+            <input id="User_Sex0" name="User_Sex" style="width: 20px; height: 10px; background-color: white" type="radio" value="true" checked="checked" />男
+			<input id="User_Sex1" name="User_Sex" style="width: 20px; height: 10px; background-color: white" type="radio" value="false" />女
+        </div>
+        <div class="editor-label">电话:</div>
+        <div class="editor-field">
+            <input id="User_Tel" class="easyui-textbox" name="User_Tel" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">移动电话:</div>
+        <div class="editor-field">
+            <input id="User_Mobile" class="easyui-numberbox" name="User_Mobile" style="width: 100%; height: 22px">
+        </div>        
+        <div class="editor-label">邮箱:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" data-options="validType:'email'" name="User_Email" style="width: 100%; height: 22px">
+        </div>
+        <div class="editor-label">备注:</div>
+        <div class="editor-field">
+            <input class="easyui-textbox" name="User_Remark" data-options="multiline:true" style="width: 100%; height: 42px">
+        </div>
+        <div class="editor-label">状态:</div>
+        <div class="editor-field">
+            <input checked="checked" name="User_Status" style="width: 20px; height: 10px; background-color: white" type="radio" value="0" />正常
+			<input name="User_Status" style="width: 20px; height: 10px; background-color: white" type="radio" value="1" />冻结
+        </div>
+
+    </form>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" id="SAVE" onclick="doSave(this.id)">确定</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-clear" onclick="javascript:$('#dlg').dialog('close');">关闭</a>
+    </div>
+</div>
+@*岗位分配*@
+<div id="dlgPosition" iconcls="icon-save" buttons="#dlg-buttons-Position"></div>
+<div id="dlg-buttons-Position" style="display:none">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="doSavePosition()">确定</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-clear" onclick="javascript:$('#dlgPosition').dialog('close');">关闭</a>
+</div>
+@*角色分配*@
+<div id="dlgRoles" iconcls="icon-save" buttons="#dlg-buttons-Roles"></div>
+<div id="dlg-buttons-Roles" style="display:none">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-ok" onclick="doSaveRoles()">确定</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-clear" onclick="javascript:$('#dlgRoles').dialog('close');">关闭</a>
+</div>
+@section PageSpecificJavascriptIncludes{
+    <script>
+        var dgid = '#dg';//数据列表tabel id
+        var fmid = '#fmedit';//数据编辑from id
+        var dlgid = '#dlg';//数据编辑dialog id
+        var url;//action
+        var userid;//用户ID
+        var isadd = false;
+        /*查询*/
+        function doSearch(value, name) {
+            var where = '';
+            var orgaid = $('#ddlOrga').combobox('getValue')
+            if (orgaid != '') {
+                where = "Orga_ID='" + orgaid + "'";
+            }
+            doSearch1(dgid, where, value, name);
+        }
+        /*刷新数据列表*/
+        function CallBack() {
+            CallBack1(dgid);
+        }
+        /*保存数据*/
+        function doSave(id) {
+            doSave1(dlgid, fmid, url, dgid);
+        }
+        /*删除数据*/
+        function doDelete() {
+            var ids = "";
+            var items = $(dgid).datagrid('getSelections');//返回选中多行
+            for (var i = 0; i < items.length ; i++) {
+                ids = (ids + items[i].User_ID) + (((i + 1) == items.length) ? '' : ',');
+            }
+            url = 'Delete';
+            doDelete1(url, ids, dgid);
+        }
+
+        //新建窗口
+        function add() {
+            loadData1(dlgid, fmid, { User_Status: 0, User_Sex: true });
+            $('#User_ID').textbox('readonly', false);
+            url = 'SaveAdd';
+            isadd = true;
+        }
+        //编辑窗口
+        function edit(index, row) {
+            if (row) {
+                $(dgid).datagrid('unselectAll');
+                $(dgid).datagrid('selectRow', index);
+            }
+            else {
+                row = $(dgid).datagrid('getSelected');
+            }
+            var id = "";
+            if (row) {
+                id = row.User_ID;
+                $('#User_ID').textbox('readonly', true);
+                url = 'SaveEdit';
+            }
+            loadData2(dlgid, fmid, 'GetModel', id);
+            isadd = false;
+        }        
+        
+        $(function () {
+            /*无记录样式调整*/
+            var col_count = $(dgid).find('th').size();
+            var data_none = { Orga_Name: data_none_html };
+            fitDatagirdBind(dgid, data_none, 'Orga_Name', col_count - 1, 'ck');
+        });
+
+        /*打开岗位分配编辑窗体*/
+        function editPosition() {
+            var row = $(dgid).datagrid('getSelected');
+            if (row) {
+                userid = row.User_ID;
+                var username = row.User_Name;
+                $('#dlgPosition').dialog({
+                    title: '分配岗位[' + userid + '][' + username + ']',
+                    //href: '/UserInfo/UserPosition?userid=' + userid,
+                    width: 860,
+                    height: 480,
+                    shadow: true,
+                    modal: true
+                });
+                $('#dlgPosition').dialog('refresh', '/UserInfo/UserPosition?userid=' + userid);
+            }
+            else {
+                $.messager.alert("提示", "请选择一条记录！", "warning");
+            }
+        }
+        /*保存岗位分配*/
+        function doSavePosition() {
+            $("#fmPosition").form('submit', {
+                url: 'SavePosition?userid=' + userid,
+                success: function (result) {
+                    if (result == "保存成功!") {
+                        $('#dlgPosition').dialog('close');
+                        //$.messager.alert("提示", result);
+                        CallBack1(dgid);//重载记录
+                    }
+                    else {
+                        $.messager.alert("提示", result);
+                    }
+                }
+            });
+        }
+
+        /*打开角色分配编辑窗体*/
+        function editRoles() {
+            var row = $(dgid).datagrid('getSelected');
+            if (row) {
+                userid = row.User_ID;
+                var username = row.User_Name;
+                $('#dlgRoles').dialog({
+                    title: '分配角色[' + userid + '][' + username + ']',
+                    //href: '/UserInfo/UserRoles?userid=' + userid,
+                    width: 300,
+                    height: 480,
+                    shadow: true,
+                    modal: true
+                });
+                $('#dlgRoles').dialog('refresh', '/UserInfo/UserRoles?userid=' + userid);
+            }
+            else {
+                $.messager.alert("提示", "请选择一条记录！", "warning");
+            }
+        }
+        /*保存角色分配*/
+        function doSaveRoles() {
+            $("#fmRoles").form('submit', {
+                url: 'SaveRoles?userid=' + userid,
+                success: function (result) {
+                    if (result == "保存成功!") {
+                        $('#dlgRoles').dialog('close');
+                        //$.messager.alert("提示", result);
+                        CallBack1(dgid);//重载记录
+                    }
+                    else {
+                        $.messager.alert("提示", result);
+                    }
+                }
+            });
+        }
+
+        //编辑信息，获取组织部门信息
+        function GetUserInfo(newvalue, oldvalue) {
+            if (isadd) {
+                $.ajax({
+                    type: 'get',
+                    url: 'GetUserModel',
+                    data: { 'userid': newvalue },
+                    dataType: 'json',
+                    cache: false,
+                    success: function (data) {
+                        if (data) {
+                            $('#User_Name').textbox('setValue', data['EmpName']);
+                            $('#User_Spelling').textbox('setValue', data['PinYin']);
+                            $('#User_Mobile').textbox('setValue', data['Phone']);
+                            if (data['Sex'] == '男') {
+                                $('#User_Sex0').prop('checked', 'checked');
+                                $('#User_Sex1').removeAttr('checked');
+                            }
+                            else {
+                                $('#User_Sex1').prop('checked', 'checked');
+                                $('#User_Sex0').removeAttr('checked');
+                            }
+                            $.ajax({
+                                type: 'get',
+                                url: 'GetOragID',
+                                data: { 'deptcode': data['DeptCode'] },
+                                cache: false,
+                                success: function (orgaid) {
+                                    $('#Orga_ID').combobox('setValue', orgaid);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+    </script>
+}
