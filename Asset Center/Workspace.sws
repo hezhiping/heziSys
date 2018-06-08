@@ -4,7 +4,8 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{983B7298-A13D-4EC9-BE38-B51EC4BD682C}" Name="Asset Center" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Asset Center.prj"/>
+		<Model Expanded="Yes" ID="{983B7298-A13D-4EC9-BE38-B51EC4BD682C}" Loaded="No" Name="Asset Center" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Asset Center.prj"/>
+		<Model Expanded="Yes" ID="{666B6C35-B5E7-40C4-962C-1061A9290932}" Name="AssetCenter" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="AssetCenter.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
